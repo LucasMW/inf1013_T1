@@ -24,10 +24,10 @@ public class Trem extends Observable implements Runnable
 			switch(this.sentido)
 			{
 			case right:
-				position = new Point(0,90);
+				position = new Point(0,230);
 				break;
 			case left:
-				position = new Point(500,180);
+				position = new Point(499, 171);
 				break;
 			}
 	}
@@ -48,14 +48,73 @@ public class Trem extends Observable implements Runnable
 	}
 	public void UpdatePosition()
 	{
-		this.position.x += velocity * ((sentido == Way.right)? 1 : -1);
-		this.position.y += velocity;
+		switch(this.sentido)
+		{
+		case left:
+			if(this.position.x > 436)
+				this.position.x -= velocity;
+			else if(this.position.x > 371)
+			{
+				System.out.println("case");
+				Vector2D vector = new Vector2D(new Point(436,171),new Point(370,190));
+				vector.setModule(this.velocity);
+				this.position.x += vector.x;
+				this.position.y += vector.y;	
+			}
+			else if(this.position.x > 147)
+			{
+				this.position.x -= velocity;
+			}
+			else if(this.position.x > 66)
+			{
+				System.out.println("case left 2");
+				Vector2D vector = new Vector2D(new Point(147,190),new Point(66,169));
+				vector.setModule(this.velocity);
+				this.position.x += vector.x;
+				this.position.y += vector.y;	
+			}
+			else
+			{
+				this.position.x -= velocity;
+			}
+			break;
+		case right:
+			
+			if(this.position.x > 370 && this.position.x < 439)
+			{
+				Vector2D vector = new Vector2D(new Point(370,191),new Point(439,230));
+				vector.setModule(this.velocity);
+				this.position.x += vector.x;
+				this.position.y += vector.y;
+			}
+			else if(this.position.x > 62 && this.position.x < 146 )
+			{
+				System.out.println("case");
+				Vector2D vector = new Vector2D(new Point(62,230),new Point(146,191));
+				vector.setModule(this.velocity);
+				this.position.x += vector.x;
+				this.position.y += vector.y;	
+			}
+			else
+			{
+				this.position.x += velocity;
+			}
+			break;
+		default:
+			this.position.x += velocity * ((sentido == Way.right)? 1 : -1);
+			this.position.y += velocity;
+			break;
+				
+		}
 		
-		System.out.println(this.countObservers());
+		
+		
+		//System.out.println(this.countObservers());
 		//notifyObservers();
 		this.myNotifyObserver();
 		
 	}
+	
 	public void myReceiveObserver(Object x)
 	{
 		this.obs  = (Observer) x ;
@@ -73,7 +132,7 @@ public class Trem extends Observable implements Runnable
 		System.out.printf("%d,%d\n",position.x, position.y);
 		
 		try {
-		    Thread.sleep(900);                 //1000 milliseconds is one second.
+		    Thread.sleep(50);                 //1000 milliseconds is one second.
 		} catch(InterruptedException ex) {
 		    Thread.currentThread().interrupt();
 		}

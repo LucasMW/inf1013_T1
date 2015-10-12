@@ -4,6 +4,8 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,8 +22,10 @@ public class TrailsPanel extends JPanel implements Observer
 	CardLayout layout;
 	Image backgroundImage; 
 	Dimension size;
+	boolean activated = false;
 	private List<Trem> trains = new LinkedList<Trem>();
 	private List<Thread> trainThread = new LinkedList<Thread>();
+
 	public TrailsPanel()
 	{
 		
@@ -34,17 +38,19 @@ public class TrailsPanel extends JPanel implements Observer
 		this.setBackgroundImage("Trem.jpg");
 		this.setVisible(true);
 		this.setOpaque(true);
-		for(int i =0; i< 3 ;i++)
+		for(int i =0; i< 10 ;i++)
 		{
-			Trem t = new Trem(i%2==0?Way.right :Way.left,30);
+			Trem t = new Trem(i%2==0?Way.right :Way.left,9);
+			//Trem t = new Trem(Way.left,9);
 			this.trains.add(t);
 			Thread thread = new Thread(t);
 			this.trainThread.add(thread);
-			thread.start();
+			//thread.start();
 			t.myReceiveObserver(this);
 			
 			
 		}
+		this.addMouseListener(new TrailsPanelMouseListener());
 		
 	}
 	public void setBackgroundImage(String path) 
@@ -73,7 +79,7 @@ public class TrailsPanel extends JPanel implements Observer
 		g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
 		for (Trem train : this.trains)
 		{
-			System.out.println("djnsak");
+			
 			drawTrain(g,train);
 		}
 	}
@@ -92,6 +98,64 @@ public class TrailsPanel extends JPanel implements Observer
 			this.repaint();
 		
 		
+	}
+	void turnOnThreads(int time)
+	{
+		for (Thread t : this.trainThread)
+		{
+			t.start();
+			try {
+				//this.repaint();
+			    Thread.sleep(time);                 //1000 milliseconds is one second.
+			} catch(InterruptedException ex) {
+			    Thread.currentThread().interrupt();
+			}
+			
+		}
+	}
+	private class TrailsPanelMouseListener implements MouseListener 
+	{
+
+		@Override
+		public void mouseClicked(MouseEvent me) 
+		{
+			System.out.printf("%d, %d\n",me.getX(),me.getY());
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) 
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) 
+		{
+			if(activated == false)
+			{
+				turnOnThreads(50);
+				activated = true;
+			}
+				
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) 
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) 
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
 	}
 
 
