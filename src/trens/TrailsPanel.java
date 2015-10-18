@@ -1,9 +1,11 @@
 package trens;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class TrailsPanel extends JPanel implements Observer
 	boolean activated = false;
 	private List<Trem> trains = new LinkedList<Trem>();
 	private List<Thread> trainThread = new LinkedList<Thread>();
+	private TrafficLightController controller;
 
 	public TrailsPanel()
 	{
@@ -38,6 +41,8 @@ public class TrailsPanel extends JPanel implements Observer
 		this.setBackgroundImage("Trem.jpg");
 		this.setVisible(true);
 		this.setOpaque(true);
+		
+		this.controller = TrafficLightController.getInstance(new Point(109, 146),new Point(397, 241));
 		for(int i =0; i< 10 ;i++)
 		{
 			Trem t = new Trem(i%2==0?Way.right :Way.left,9);
@@ -47,9 +52,16 @@ public class TrailsPanel extends JPanel implements Observer
 			this.trainThread.add(thread);
 			//thread.start();
 			t.myReceiveObserver(this);
-			
+			t.myReceiveObserver(this.controller);
+			if(t.sentido == Way.right)
+				this.controller.incrementTrainsOnLeft();
+			else
+				this.controller.incrementTrainsOnRight();
 			
 		}
+		
+		
+		
 		this.addMouseListener(new TrailsPanelMouseListener());
 		
 	}
@@ -82,6 +94,8 @@ public class TrailsPanel extends JPanel implements Observer
 			
 			drawTrain(g,train);
 		}
+		drawTrafficLights(g, this.controller);
+		
 	}
 	void drawTrain(Graphics g, Trem t)
 	{
@@ -90,11 +104,28 @@ public class TrailsPanel extends JPanel implements Observer
 		g.fillOval(t.position.x-radius, t.position.y-radius, 2*radius, 2*radius);
 		
 	}
+	void drawTrafficLights(Graphics g, TrafficLightController controller)
+	{
+		int width=30;
+		int height=40;
+		int radius = 10;
+		Point p = controller.getLightBoxLeftPosition();
+		g.setColor(Color.black);
+		g.fillRect(p.x - width/2 , p.y - height/2 , width, height);
+		g.setColor(controller.getColorOfTrafficLightLeft());
+		g.fillOval(p.x-radius, p.y-radius, 2*radius, 2*radius);
+		
+	    p = controller.getLightBoxRightPosition();
+		g.setColor(Color.black);
+		g.fillRect(p.x -width/2, p.y - height/2, width, height);
+		g.setColor(controller.getColorOfTrafficLightRight());
+		g.fillOval(p.x-radius, p.y-radius, 2*radius, 2*radius);
+	}
 	@Override
 	public void update(Observable o, Object arg) 
 	{
 		
-			System.out.println("updated");	
+			//System.out.println("updated");	
 			this.repaint();
 		
 		
@@ -108,7 +139,7 @@ public class TrailsPanel extends JPanel implements Observer
 				//this.repaint();
 			    Thread.sleep(time);                 //1000 milliseconds is one second.
 			} catch(InterruptedException ex) {
-			    Thread.currentThread().interrupt();
+			   // Thread.currentThread().interrupt();
 			}
 			
 		}
@@ -134,7 +165,7 @@ public class TrailsPanel extends JPanel implements Observer
 		{
 			if(activated == false)
 			{
-				turnOnThreads(50);
+				turnOnThreads(100);
 				activated = true;
 			}
 				
