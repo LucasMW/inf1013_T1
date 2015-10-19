@@ -78,7 +78,7 @@ public class Trem extends Observable implements Runnable
 				this.position.y += vector.y;
 				if(ctrl.redLightRight == true)
 				{
-					System.out.println("can`t move");
+					System.out.println("LEFT can`t move");
 				this.moving = false;
 				break;
 				}
@@ -98,6 +98,7 @@ public class Trem extends Observable implements Runnable
 			}
 			else if(this.position.x > 66)
 			{
+				 
 				//System.out.println("case left 2");
 				Vector2D vector = new Vector2D(new Point(147,190),new Point(66,169));
 				vector.setModule(this.velocity);
@@ -113,7 +114,7 @@ public class Trem extends Observable implements Runnable
 			if(ctrl.greenLightLeft == true)
 			{
 				moving = true;
-				System.out.println("move again");
+				//System.out.println("move again");
 			}
 			if (!moving)
 			{
@@ -141,7 +142,7 @@ public class Trem extends Observable implements Runnable
 				
 					if(ctrl.redLightLeft == true)
 					{
-						System.out.println("can`t move");
+						System.out.println("RIGHT can`t move");
 					this.moving = false;
 					break;
 					}

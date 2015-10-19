@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -45,7 +46,8 @@ public class TrailsPanel extends JPanel implements Observer
 		this.controller = TrafficLightController.getInstance(new Point(109, 146),new Point(397, 241));
 		for(int i =0; i< 10 ;i++)
 		{
-			Trem t = new Trem(i%2==0?Way.right :Way.left,9);
+			float vel = i%2 == 0 ? 12 : 10;
+			Trem t = new Trem(i%2==0?Way.right :Way.left,vel);
 			//Trem t = new Trem(Way.left,9);
 			this.trains.add(t);
 			Thread thread = new Thread(t);
@@ -137,6 +139,7 @@ public class TrailsPanel extends JPanel implements Observer
 			t.start();
 			try {
 				//this.repaint();
+				
 			    Thread.sleep(time);                 //1000 milliseconds is one second.
 			} catch(InterruptedException ex) {
 			   // Thread.currentThread().interrupt();
