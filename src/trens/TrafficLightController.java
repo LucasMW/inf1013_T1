@@ -73,17 +73,17 @@ public class TrafficLightController implements Observer
 	public void update(Observable o, Object arg) 
 	{
 		Trem t = (Trem) o;
-		if(t.position.x > 146  && t.position.x < 370) //in road
-		{
-			if(t.sentido == Way.right)
-			{
-				this.setLeftLight(false);
-			}
-			else
-			{
-				this.setRightLight(false);
-			}
-		}
+//		if(t.position.x > 146  && t.position.x < 370) //in road
+//		{
+//			if(t.sentido == Way.right)
+//			{
+//				this.setLeftLight(false);
+//			}
+//			else
+//			{
+//				this.setRightLight(false);
+//			}
+//		}
 //		if(this.trainsOnLeft == 0)
 //		{
 //			this.setRightLight(true);
@@ -92,6 +92,7 @@ public class TrafficLightController implements Observer
 //		{
 //			this.setLeftLight(true);
 //		}
+		System.out.printf("left %d, right %d\n",this.trainsOnLeft,this.trainsOnRight);
 		
 		
 	}
@@ -103,21 +104,31 @@ public class TrafficLightController implements Observer
 		this.setLeftLight(false);
 		
 	}
-	public void trainEnteredThoughLeft()
+	public void trainEnteredThroughLeft()
 	{
 		System.out.println("Entered Left");
 		this.decrementTrainsOnLeft();
 		this.setRightLight(false);
 	}
-	public void trainExitedThoughLeft()
+	public void trainExitedThroughLeft()
 	{
 		System.out.println("Exited Left");
-		
+		this.incrementTrainsOnLeft();
+		if(this.trainsOnRight == 0)
+		{
+			System.out.println("left set true");
+			this.setLeftLight(true);
+		}
 	}
-	public void trainExitedThoughRight()
+	public void trainExitedThroughRight()
 	{
-		System.out.println("Entered Right");
-		
+		System.out.println("Exited Right");
+		this.incrementTrainsOnRight();
+		if(this.trainsOnLeft == 0)
+		{
+			System.out.println("right set true");
+			this.setRightLight(true);
+		}
 	}
 	public void incrementTrainsOnRight()
 	{

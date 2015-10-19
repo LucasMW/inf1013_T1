@@ -53,11 +53,20 @@ public class Trem extends Observable implements Runnable
 	}
 	public void UpdatePosition()
 	{
-		if (!moving)
-			return;
+		
+		TrafficLightController ctrl = TrafficLightController.getInstance(null, null);
 		switch(this.sentido)
 		{
 		case left:
+			if(ctrl.greenLightRight == true)
+			{
+				moving = true;
+			}
+			if (!moving)
+			{
+				return;
+			}
+			
 			if(this.position.x > 436)
 				this.position.x -= velocity;
 			else if(this.position.x > 371)
@@ -67,10 +76,18 @@ public class Trem extends Observable implements Runnable
 				vector.setModule(this.velocity);
 				this.position.x += vector.x;
 				this.position.y += vector.y;	
+				if(this.position.x < 371)
+				{
+					ctrl.trainEnteredThroughRight();
+				}
 			}
 			else if(this.position.x > 147)
 			{
 				this.position.x -= velocity;
+				if(this.position.x < 147)
+				{
+					ctrl.trainExitedThroughLeft();
+				}
 			}
 			else if(this.position.x > 66)
 			{
@@ -86,49 +103,55 @@ public class Trem extends Observable implements Runnable
 			}
 			break;
 		case right:
+			if(ctrl.greenLightLeft == true)
+			{
+				moving = true;
+				System.out.println("move again");
+			}
+			if (!moving)
+			{
+				return;
+			}
 			
 			if(this.position.x > 370 && this.position.x < 439) //segment 
 			{
-				if(this.position.x - this.velocity < 370) // means last position was out of this segment
-				{
-					
-					TrafficLightController ctrl = TrafficLightController.getInstance(null,null);
-					ctrl.trainEnteredThoughLeft();
-					if(ctrl.redLightLeft == true)
-					{
-						
-					}
-				}
+				
 				Vector2D vector = new Vector2D(new Point(370,191),new Point(439,230));
 				vector.setModule(this.velocity);
 				this.position.x += vector.x;
 				this.position.y += vector.y;
+				
+				if(this.position.x > 439)
+				{
+					ctrl.trainExitedThroughRight();
+				}
 			}
 			else if(this.position.x > 62 && this.position.x < 146 ) //segment
 			{
 				//System.out.println("case");
 				Vector2D vector = new Vector2D(new Point(62,230),new Point(146,191));
 				vector.setModule(this.velocity);
-				//if(this.position.x + vector.x > 146)
-				//{
-					if(TrafficLightController.getInstance(null, null).redLightRight == true)
+				
+					if(ctrl.redLightLeft == true)
 					{
+						System.out.println("can`t move");
 					this.moving = false;
 					break;
 					}
-					else
-					{
-						this.moving = true;
-						TrafficLightController.getInstance(null, null).trainEnteredThroughRight();
-					}
+					
 
-				//}
+				
 				this.position.x += vector.x;
-				this.position.y += vector.y;	
+				this.position.y += vector.y;
+				if(this.position.x > 146)
+				{
+					TrafficLightController.getInstance(null, null).trainEnteredThroughLeft();
+				}
 				
 			}
 			else
 			{
+				
 				this.position.x += velocity;
 			}
 			break;
