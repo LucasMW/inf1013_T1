@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 public class Frame extends JFrame 
 { 
-	TrailsPanel panel; 
+	public TrailsPanel panel; 
 
 	public Frame() 
 	{

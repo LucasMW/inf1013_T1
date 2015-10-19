@@ -92,7 +92,7 @@ public class TrafficLightController implements Observer
 //		{
 //			this.setLeftLight(true);
 //		}
-		System.out.printf("left %d, right %d\n",this.trainsOnLeft,this.trainsOnRight);
+		//System.out.printf("left %d, right %d\n",this.trainsOnLeft,this.trainsOnRight);
 		
 		
 	}
@@ -149,6 +149,11 @@ public class TrafficLightController implements Observer
 	public void decrementTrainsOnLeft()
 	{
 		this.trainsOnLeft--;
+	}
+	
+	public boolean collisionRiskOnMovement(Point p)
+	{
+		return Trilhos.getInstance().getTrailsPanel().trainCollisionInPosition(p);
 	}
 
 }

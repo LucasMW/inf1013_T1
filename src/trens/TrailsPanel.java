@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 
 public class TrailsPanel extends JPanel implements Observer
@@ -46,8 +49,8 @@ public class TrailsPanel extends JPanel implements Observer
 		this.controller = TrafficLightController.getInstance(new Point(109, 146),new Point(397, 241));
 		for(int i =0; i< 10 ;i++)
 		{
-			float vel = i%2 == 0 ? 12 : 10;
-			Trem t = new Trem(i%2==0?Way.right :Way.left,vel);
+			float vel = i%2 == 0 ? 10 : 10;
+			Trem t = new Trem(i%2==0?Way.right :Way.left,2*vel/((i+1)%4+1));
 			//Trem t = new Trem(Way.left,9);
 			this.trains.add(t);
 			Thread thread = new Thread(t);
@@ -61,10 +64,26 @@ public class TrailsPanel extends JPanel implements Observer
 				this.controller.incrementTrainsOnRight();
 			
 		}
-		
-		
-		
 		this.addMouseListener(new TrailsPanelMouseListener());
+		
+		  ActionListener updateGui = new ActionListener() 
+		  {
+			 
+
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				// TODO Auto-generated method stub
+				repaint();
+			}
+		  };
+		  int fps = 20;
+		  Timer timer = new Timer(1000/fps,updateGui); // 20 fps
+		  timer.start();
+		
+		
+		
+		
 		
 	}
 	public void setBackgroundImage(String path) 
@@ -123,12 +142,13 @@ public class TrailsPanel extends JPanel implements Observer
 		g.setColor(controller.getColorOfTrafficLightRight());
 		g.fillOval(p.x-radius, p.y-radius, 2*radius, 2*radius);
 	}
+	
 	@Override
 	public void update(Observable o, Object arg) 
 	{
 		
 			//System.out.println("updated");	
-			this.repaint();
+			//this.repaint();
 		
 		
 	}
@@ -147,6 +167,21 @@ public class TrailsPanel extends JPanel implements Observer
 			
 		}
 	}
+	public boolean trainCollisionInPosition(Point p)
+	{
+		for (Trem train: this.trains)
+		{
+			float hor = train.position.x - p.x; 
+			float ver = train.position.y - p.y;
+			float r =  (float) 2 ;
+			if( hor*hor + ver*ver <= r*r) //circle equation
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private class TrailsPanelMouseListener implements MouseListener 
 	{
 
@@ -168,7 +203,7 @@ public class TrailsPanel extends JPanel implements Observer
 		{
 			if(activated == false)
 			{
-				turnOnThreads(100);
+				turnOnThreads(10);
 				activated = true;
 			}
 				
@@ -189,7 +224,7 @@ public class TrailsPanel extends JPanel implements Observer
 			// TODO Auto-generated method stub
 			
 		}
-
+	
 	}
 	
 

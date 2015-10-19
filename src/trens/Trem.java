@@ -53,7 +53,7 @@ public class Trem extends Observable implements Runnable
 	}
 	public void UpdatePosition()
 	{
-		
+		Point newPosition = new Point(this.position.x,this.position.y);
 		TrafficLightController ctrl = TrafficLightController.getInstance(null, null);
 		switch(this.sentido)
 		{
@@ -62,27 +62,24 @@ public class Trem extends Observable implements Runnable
 			{
 				moving = true;
 			}
-			if (!moving)
-			{
-				return;
-			}
+			
 			
 			if(this.position.x > 436)
-				this.position.x -= velocity;
+				newPosition.x -= velocity;
 			else if(this.position.x > 371)
 			{
 				//System.out.println("case");
 				Vector2D vector = new Vector2D(new Point(436,171),new Point(370,190));
 				vector.setModule(this.velocity);
-				this.position.x += vector.x;
-				this.position.y += vector.y;
+				newPosition.x += vector.x;
+				newPosition.y += vector.y;
 				if(ctrl.redLightRight == true)
 				{
 					System.out.println("LEFT can`t move");
 				this.moving = false;
 				break;
 				}
-				if(this.position.x < 371)
+				if(newPosition.x < 371)
 				{
 					ctrl.trainEnteredThroughRight();
 				}
@@ -90,8 +87,8 @@ public class Trem extends Observable implements Runnable
 			}
 			else if(this.position.x > 147)
 			{
-				this.position.x -= velocity;
-				if(this.position.x < 147)
+				newPosition.x -= velocity;
+				if(newPosition.x < 147)
 				{
 					ctrl.trainExitedThroughLeft();
 				}
@@ -102,12 +99,12 @@ public class Trem extends Observable implements Runnable
 				//System.out.println("case left 2");
 				Vector2D vector = new Vector2D(new Point(147,190),new Point(66,169));
 				vector.setModule(this.velocity);
-				this.position.x += vector.x;
-				this.position.y += vector.y;	
+				newPosition.x += vector.x;
+				newPosition.y += vector.y;	
 			}
 			else
 			{
-				this.position.x -= velocity;
+				newPosition.x -= velocity;
 			}
 			break;
 		case right:
@@ -116,20 +113,17 @@ public class Trem extends Observable implements Runnable
 				moving = true;
 				//System.out.println("move again");
 			}
-			if (!moving)
-			{
-				return;
-			}
+			
 			
 			if(this.position.x > 370 && this.position.x < 439) //segment 
 			{
 				
 				Vector2D vector = new Vector2D(new Point(370,191),new Point(439,230));
 				vector.setModule(this.velocity);
-				this.position.x += vector.x;
-				this.position.y += vector.y;
+				newPosition.x += vector.x;
+				newPosition.y += vector.y;
 				
-				if(this.position.x > 439)
+				if(newPosition.x > 439)
 				{
 					ctrl.trainExitedThroughRight();
 				}
@@ -149,9 +143,9 @@ public class Trem extends Observable implements Runnable
 					
 
 				
-				this.position.x += vector.x;
-				this.position.y += vector.y;
-				if(this.position.x > 146)
+				newPosition.x += vector.x;
+				newPosition.y += vector.y;
+				if(newPosition.x > 146)
 				{
 					TrafficLightController.getInstance(null, null).trainEnteredThroughLeft();
 				}
@@ -160,7 +154,7 @@ public class Trem extends Observable implements Runnable
 			else
 			{
 				
-				this.position.x += velocity;
+				newPosition.x += velocity;
 			}
 			break;
 		default:
@@ -169,6 +163,18 @@ public class Trem extends Observable implements Runnable
 			break;
 				
 		}
+		
+		if (!moving)
+		{
+			return;
+		} else if(ctrl.collisionRiskOnMovement(newPosition))
+		{
+			System.out.println("stop");
+			return;
+		}
+		// update position
+		this.position.x = newPosition.x;
+		this.position.y = newPosition.y;
 		
 		
 		

@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class Trilhos 
 {
-	JFrame frame;
+	Frame frame;
 	private static Trilhos instance;
 	private Trilhos()
 	{
@@ -22,6 +22,9 @@ public class Trilhos
 	{
 		frame = new Frame();
 		
-		
+	}
+	public TrailsPanel getTrailsPanel()
+	{
+		return this.frame.panel;
 	}
 }
