@@ -96,6 +96,9 @@ public class TrafficLightController implements Observer
 		
 		
 	}
+	
+	
+	
 	//sensor section
 	public void trainEnteredThroughRight()
 	{

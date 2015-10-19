@@ -191,6 +191,6 @@ public class TrailsPanel extends JPanel implements Observer
 		}
 
 	}
-
+	
 
 }
