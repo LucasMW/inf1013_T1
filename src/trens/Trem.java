@@ -75,11 +75,18 @@ public class Trem extends Observable implements Runnable
 				Vector2D vector = new Vector2D(new Point(436,171),new Point(370,190));
 				vector.setModule(this.velocity);
 				this.position.x += vector.x;
-				this.position.y += vector.y;	
+				this.position.y += vector.y;
+				if(ctrl.redLightRight == true)
+				{
+					System.out.println("can`t move");
+				this.moving = false;
+				break;
+				}
 				if(this.position.x < 371)
 				{
 					ctrl.trainEnteredThroughRight();
 				}
+				
 			}
 			else if(this.position.x > 147)
 			{
