@@ -23,12 +23,14 @@ public class TrafficLightController implements Observer
 	
 	private TrafficLightController(Point leftPosition, Point rightPosition)
 	{
+		new TrafficLightController();
 		this.positionLightBoxLeft = leftPosition;
 		this.positionLightBoxRight = rightPosition;
+	}
+	private TrafficLightController()
+	{
 		this.setLeftLight(true);
 		this.setRightLight(true);
-		
-		
 	}
 	static public TrafficLightController getInstance(Point leftPosition, Point rightPosition)
 	{
