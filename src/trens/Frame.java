@@ -18,8 +18,6 @@ public class Frame extends JFrame
 		this.setResizable(false);
 		this.addPanels();
 		this.setVisible(true);
-		
-		
 	}
 
 	private void addPanels() 

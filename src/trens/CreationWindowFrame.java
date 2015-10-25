@@ -13,17 +13,19 @@ public class CreationWindowFrame extends JFrame
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setTitle("T1 - TrainCreationWindow");
 		this.setSize(500,400);
-		this.getContentPane().setLayout(
-				new BoxLayout(this.getContentPane(), BoxLayout.X_AXIS));
+		this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		this.setResizable(true);
-		this.setVisible(true);
-		this.setLocation(500, 0);
+		
+		this.setLocation(500, 10);
 		this.addPanel();
+		this.setVisible(true);
 	}
 	private void addPanel()
 	{
 		this.buttonsPanel = new ButtonsPanel();
-		this.add(this.buttonsPanel);
+		this.getContentPane().add(this.buttonsPanel);
+		//this.add(this.buttonsPanel);
+		//this.repaint();
 	}
 
 }
