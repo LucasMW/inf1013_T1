@@ -5,10 +5,12 @@ import javax.swing.*;
 public class Trilhos 
 {
 	Frame frame;
+	CreationWindowFrame creationFrame;
 	private static Trilhos instance;
 	private Trilhos()
 	{
 		loadScreen();
+		loadCreationWindow();
 	}
 	public static Trilhos getInstance()
 	{
@@ -21,7 +23,10 @@ public class Trilhos
 	public void loadScreen()
 	{
 		frame = new Frame();
-		
+	}
+	public void loadCreationWindow()
+	{
+		this.creationFrame = new CreationWindowFrame();
 	}
 	public TrailsPanel getTrailsPanel()
 	{
