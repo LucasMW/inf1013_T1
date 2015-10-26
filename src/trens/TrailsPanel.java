@@ -29,8 +29,7 @@ public class TrailsPanel extends JPanel implements Observer
 	Image backgroundImage; 
 	Dimension size;
 	boolean activated = false;
-	private List<Trem> trains = new LinkedList<Trem>();
-	private List<Thread> trainThread = new LinkedList<Thread>();
+	
 	private TrafficLightController controller;
 
 	public TrailsPanel()
@@ -52,9 +51,9 @@ public class TrailsPanel extends JPanel implements Observer
 			float vel = i%2 == 0 ? 10 : 10;
 			Trem t = new Trem(i%2==0?Way.right :Way.left,2*vel/((i+1)%4+1));
 			//Trem t = new Trem(Way.left,9);
-			this.trains.add(t);
+			this.controller.trains.add(t);
 			Thread thread = new Thread(t);
-			this.trainThread.add(thread);
+			this.controller.trainThread.add(thread);
 			//thread.start();
 			t.myReceiveObserver(this);
 			t.myReceiveObserver(this.controller);
@@ -110,7 +109,7 @@ public class TrailsPanel extends JPanel implements Observer
 		
 		super.paintComponent(g);
 		g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-		for (Trem train : this.trains)
+		for (Trem train : this.controller.trains)
 		{
 			
 			drawTrain(g,train);
@@ -154,7 +153,7 @@ public class TrailsPanel extends JPanel implements Observer
 	}
 	void turnOnThreads(int time)
 	{
-		for (Thread t : this.trainThread)
+		for (Thread t : this.controller.trainThread)
 		{
 			t.start();
 			try {
@@ -169,7 +168,7 @@ public class TrailsPanel extends JPanel implements Observer
 	}
 	public boolean trainCollisionInPosition(Point p)
 	{
-		for (Trem train: this.trains)
+		for (Trem train: this.controller.trains)
 		{
 			float hor = train.position.x - p.x; 
 			float ver = train.position.y - p.y;

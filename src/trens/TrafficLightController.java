@@ -2,6 +2,8 @@ package trens;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -20,6 +22,9 @@ public class TrafficLightController implements Observer
 	private Point positionLightBoxRight;
 	
 	private static TrafficLightController instance = null;
+	public List<Trem> trains = new LinkedList<Trem>();
+	public List<Thread> trainThread = new LinkedList<Thread>();
+	
 	
 	private TrafficLightController(Point leftPosition, Point rightPosition)
 	{
@@ -156,6 +161,10 @@ public class TrafficLightController implements Observer
 	public boolean collisionRiskOnMovement(Point p)
 	{
 		return Trilhos.getInstance().getTrailsPanel().trainCollisionInPosition(p);
+	}
+	public void informTrain(Way way, float velocity)
+	{
+		
 	}
 
 }

@@ -18,6 +18,7 @@ public class ButtonsPanel extends JPanel
 	JButton	launchRightTrain;
 	JButton launchLeftTrain;
 	Dimension size;
+	TrafficLightController ctrl;
 	public ButtonsPanel()
 	{
 		this.setLayout(null);
@@ -30,17 +31,20 @@ public class ButtonsPanel extends JPanel
 		this.setSize(size);
 		
 		
+		this.ctrl = TrafficLightController.getInstance(null, null);
 		
 		ActionListener actLisLB = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				System.out.println("left pressed");
+				ctrl.informTrain(Way.left, velocityComboBox.getSelectedIndex());
 			}
 		};
 		ActionListener actLisRB = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				System.out.println("right pressed");
+				ctrl.informTrain(Way.right, velocityComboBox.getSelectedIndex());
 			}
 		};
 		
