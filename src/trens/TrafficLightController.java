@@ -164,7 +164,11 @@ public class TrafficLightController implements Observer
 	}
 	public void informTrain(Way way, float velocity)
 	{
-		
+		Trem t = new Trem(way,velocity);
+		Thread thread = new Thread(t);
+		this.trains.add(t);
+		this.trainThread.add(thread);
+		thread.start();
 	}
 
 }
