@@ -166,20 +166,7 @@ public class TrailsPanel extends JPanel implements Observer
 			
 		}
 	}
-	public boolean trainCollisionInPosition(Point p)
-	{
-		for (Trem train: this.controller.trains)
-		{
-			float hor = train.position.x - p.x; 
-			float ver = train.position.y - p.y;
-			float r =  (float) 2 ;
-			if( hor*hor + ver*ver <= r*r) //circle equation
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+	
 	
 	private class TrailsPanelMouseListener implements MouseListener 
 	{

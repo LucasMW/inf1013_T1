@@ -160,7 +160,17 @@ public class TrafficLightController implements Observer
 	
 	public boolean collisionRiskOnMovement(Point p)
 	{
-		return Trilhos.getInstance().getTrailsPanel().trainCollisionInPosition(p);
+		for (Trem train: this.trains)
+		{
+			float hor = train.position.x - p.x; 
+			float ver = train.position.y - p.y;
+			float r =  (float) 2 ;
+			if( hor*hor + ver*ver <= r*r) //circle equation
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	public void informTrain(Way way, float velocity)
 	{
