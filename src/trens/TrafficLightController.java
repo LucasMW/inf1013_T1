@@ -37,7 +37,6 @@ public class TrafficLightController implements Observer
 	{
 		this.setLeftLight(true);
 		this.setRightLight(true);
-		System.out.println("asas");
 	}
 	static public TrafficLightController getInstance(Point leftPosition, Point rightPosition)
 	{
@@ -178,7 +177,6 @@ public class TrafficLightController implements Observer
 	{
 		System.out.println(velocity);
 		Trem t = new Trem(way,velocity/5);
-		//this.setLeftLight(true);
 		Thread thread = new Thread(t);
 		t.myReceiveObserver(this);
 		this.trains.add(t);
