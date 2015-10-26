@@ -164,11 +164,21 @@ public class TrafficLightController implements Observer
 	}
 	public void informTrain(Way way, float velocity)
 	{
-		Trem t = new Trem(way,velocity);
+		System.out.println(velocity);
+		Trem t = new Trem(way,velocity/5);
+		//this.setLeftLight(true);
 		Thread thread = new Thread(t);
+		t.myReceiveObserver(this);
 		this.trains.add(t);
+		t.myReceiveObserver(Trilhos.getInstance().getTrailsPanel());
 		this.trainThread.add(thread);
 		thread.start();
+		if(t.sentido == Way.right)
+			this.incrementTrainsOnLeft();
+		else
+			this.incrementTrainsOnRight();
+		
+		
 	}
 
 }

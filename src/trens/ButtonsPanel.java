@@ -37,14 +37,14 @@ public class ButtonsPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				System.out.println("left pressed");
-				ctrl.informTrain(Way.left, velocityComboBox.getSelectedIndex());
+				ctrl.informTrain(Way.left,  ((Float) velocityComboBox.getSelectedItem()).floatValue());
 			}
 		};
 		ActionListener actLisRB = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				System.out.println("right pressed");
-				ctrl.informTrain(Way.right, velocityComboBox.getSelectedIndex());
+				ctrl.informTrain(Way.right, ((Float) velocityComboBox.getSelectedItem()).floatValue());
 			}
 		};
 		
@@ -61,15 +61,13 @@ public class ButtonsPanel extends JPanel
 		this.launchRightTrain.addActionListener(actLisRB);
 		this.add(launchRightTrain);
 		this.velocityComboBox = new JComboBox<Float>();
-		this.velocityComboBox.addItem(30);
-		this.velocityComboBox.addItem(40);
-		this.velocityComboBox.addItem(60);
+		this.velocityComboBox.addItem(new Float(30));
+		this.velocityComboBox.addItem(new Float(40));
+		this.velocityComboBox.addItem(new Float(60));
+		this.velocityComboBox.setSelectedIndex(0);
 		this.velocityComboBox.setBounds(200, 0, 100, 50);
 		this.add(this.velocityComboBox);
-		final JLabel l1 = new JLabel(
-				"Welcome to War. Enter the name of each player:");
-		l1.setMaximumSize(new Dimension(300, 50));
-		this.add(l1);
+	
 		this.setVisible(true);
 		this.setOpaque(true);
 	}

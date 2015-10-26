@@ -46,23 +46,23 @@ public class TrailsPanel extends JPanel implements Observer
 		this.setOpaque(true);
 		
 		this.controller = TrafficLightController.getInstance(new Point(109, 146),new Point(397, 241));
-		for(int i =0; i< 10 ;i++)
-		{
-			float vel = i%2 == 0 ? 10 : 10;
-			Trem t = new Trem(i%2==0?Way.right :Way.left,2*vel/((i+1)%4+1));
-			//Trem t = new Trem(Way.left,9);
-			this.controller.trains.add(t);
-			Thread thread = new Thread(t);
-			this.controller.trainThread.add(thread);
-			//thread.start();
-			t.myReceiveObserver(this);
-			t.myReceiveObserver(this.controller);
-			if(t.sentido == Way.right)
-				this.controller.incrementTrainsOnLeft();
-			else
-				this.controller.incrementTrainsOnRight();
-			
-		}
+//		for(int i =0; i< 10 ;i++)
+//		{
+//			float vel = i%2 == 0 ? 10 : 10;
+//			Trem t = new Trem(i%2==0?Way.right :Way.left,2*vel/((i+1)%4+1));
+//			//Trem t = new Trem(Way.left,9);
+//			this.controller.trains.add(t);
+//			Thread thread = new Thread(t);
+//			this.controller.trainThread.add(thread);
+//			//thread.start();
+//			t.myReceiveObserver(this);
+//			t.myReceiveObserver(this.controller);
+//			if(t.sentido == Way.right)
+//				this.controller.incrementTrainsOnLeft();
+//			else
+//				this.controller.incrementTrainsOnRight();
+//			
+//		}
 		this.addMouseListener(new TrailsPanelMouseListener());
 		
 		  ActionListener updateGui = new ActionListener() 

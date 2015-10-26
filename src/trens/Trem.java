@@ -169,6 +169,7 @@ public class Trem extends Observable implements Runnable
 			return;
 		} else if(ctrl.collisionRiskOnMovement(newPosition))
 		{
+			System.out.println(newPosition);
 			System.out.println("stop");
 			return;
 		}
