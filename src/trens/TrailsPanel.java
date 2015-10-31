@@ -34,7 +34,6 @@ public class TrailsPanel extends JPanel implements Observer
 
 	public TrailsPanel()
 	{
-		
 		this.setLayout(null);
 		System.out.println("puts panel");
 		size = new Dimension((int) (500),
@@ -46,44 +45,8 @@ public class TrailsPanel extends JPanel implements Observer
 		this.setOpaque(true);
 		
 		this.controller = TrafficLightController.getInstance(new Point(109, 146),new Point(397, 241));
-//		for(int i =0; i< 10 ;i++)
-//		{
-//			float vel = i%2 == 0 ? 10 : 10;
-//			Trem t = new Trem(i%2==0?Way.right :Way.left,2*vel/((i+1)%4+1));
-//			//Trem t = new Trem(Way.left,9);
-//			this.controller.trains.add(t);
-//			Thread thread = new Thread(t);
-//			this.controller.trainThread.add(thread);
-//			//thread.start();
-//			t.myReceiveObserver(this);
-//			t.myReceiveObserver(this.controller);
-//			if(t.sentido == Way.right)
-//				this.controller.incrementTrainsOnLeft();
-//			else
-//				this.controller.incrementTrainsOnRight();
-//			
-//		}
 		this.addMouseListener(new TrailsPanelMouseListener());
 		this.controller.myReceiveObserver(this);
-//		  ActionListener updateGui = new ActionListener() 
-//		  {
-//			 
-//
-//			@Override
-//			public void actionPerformed(ActionEvent e) 
-//			{
-//				// TODO Auto-generated method stub
-//				repaint();
-//			}
-//		  };
-//		  int fps = 20;
-//		  Timer timer = new Timer(1000/fps,updateGui); // 20 fps
-//		  timer.start();
-		
-		
-		
-		
-		
 	}
 	public void setBackgroundImage(String path) 
 	{
@@ -145,25 +108,8 @@ public class TrailsPanel extends JPanel implements Observer
 	@Override
 	public void update(Observable o, Object arg) 
 	{
-			System.out.println("ds");
 			this.repaint();	
 	}
-	void turnOnThreads(int time)
-	{
-		for (Thread t : this.controller.trainThread)
-		{
-			t.start();
-			try {
-				//this.repaint();
-				
-			    Thread.sleep(time);                 //1000 milliseconds is one second.
-			} catch(InterruptedException ex) {
-			   // Thread.currentThread().interrupt();
-			}
-			
-		}
-	}
-	
 	
 	private class TrailsPanelMouseListener implements MouseListener 
 	{
@@ -178,27 +124,17 @@ public class TrailsPanel extends JPanel implements Observer
 		public void mousePressed(MouseEvent e) 
 		{
 			// TODO Auto-generated method stub
-			
 		}
-
 		@Override
 		public void mouseReleased(MouseEvent e) 
 		{
-			if(activated == false)
-			{
-				turnOnThreads(10);
-				activated = true;
-			}
-				
 			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) 
 		{
 			// TODO Auto-generated method stub
-			
 		}
 
 		@Override

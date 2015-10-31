@@ -48,7 +48,6 @@ public class TrafficLightController extends Observable
 			public void run() 
 			{
 				// TODO Auto-generated method stub
-				System.out.println("as");
 				myNotifyObservers();
 				
 			}
