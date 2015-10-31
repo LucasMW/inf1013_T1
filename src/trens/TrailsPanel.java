@@ -65,20 +65,20 @@ public class TrailsPanel extends JPanel implements Observer
 //		}
 		this.addMouseListener(new TrailsPanelMouseListener());
 		
-		  ActionListener updateGui = new ActionListener() 
-		  {
-			 
-
-			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
-				// TODO Auto-generated method stub
-				repaint();
-			}
-		  };
-		  int fps = 20;
-		  Timer timer = new Timer(1000/fps,updateGui); // 20 fps
-		  timer.start();
+//		  ActionListener updateGui = new ActionListener() 
+//		  {
+//			 
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) 
+//			{
+//				// TODO Auto-generated method stub
+//				repaint();
+//			}
+//		  };
+//		  int fps = 20;
+//		  Timer timer = new Timer(1000/fps,updateGui); // 20 fps
+//		  timer.start();
 		
 		
 		
@@ -146,8 +146,8 @@ public class TrailsPanel extends JPanel implements Observer
 	public void update(Observable o, Object arg) 
 	{
 		
-			//System.out.println("updated");	
-			//this.repaint();
+				
+			this.repaint();
 		
 		
 	}

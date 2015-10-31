@@ -6,11 +6,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 // to do: move system control form TrailsPanel to here
 
 
-public class TrafficLightController implements Observer
+public class TrafficLightController extends Observable implements Observer
 {
 	boolean greenLightLeft=false;
 	boolean redLightLeft=false;
@@ -24,7 +26,8 @@ public class TrafficLightController implements Observer
 	private static TrafficLightController instance = null;
 	public List<Trem> trains = new LinkedList<Trem>();
 	public List<Thread> trainThread = new LinkedList<Thread>();
-	
+	private List<Observer> observers = new LinkedList<Observer>();
+	private Timer timer;
 	
 	private TrafficLightController(Point leftPosition, Point rightPosition)
 	{
@@ -33,10 +36,28 @@ public class TrafficLightController implements Observer
 		this.positionLightBoxRight = rightPosition;
 		
 	}
+	
 	private TrafficLightController()
 	{
 		this.setLeftLight(true);
 		this.setRightLight(true);
+		this.timer = new Timer(); 
+		TimerTask task = new TimerTask()
+		
+		{
+
+			@Override
+			public void run() 
+			{
+				// TODO Auto-generated method stub
+				myNotifyObservers();
+				System.out.println("x");
+			}
+			
+		};
+		int fps = 20;
+		this.timer.scheduleAtFixedRate(task, 0, (long) 200);
+		
 	}
 	static public TrafficLightController getInstance(Point leftPosition, Point rightPosition)
 	{
@@ -189,6 +210,17 @@ public class TrafficLightController implements Observer
 			this.incrementTrainsOnRight();
 		
 		
+	}
+	public void myReceiveObserver(Object x)
+	{
+		this.observers.add((Observer) x );
+	}
+	public void myNotifyObservers()
+	{
+		for (Observer obs : this.observers)
+		{
+			obs.update(this, null);
+		}
 	}
 
 }
