@@ -12,12 +12,11 @@ enum Way
 	right,
 	left
 };
-public class Trem extends Observable implements Runnable
+public class Trem implements Runnable
 {
 	Way sentido;
 	float velocity;
 	Point position;
-	private List<Observer> observers = new LinkedList<Observer>();
 	boolean moving;
 	
 	public Trem(Way sentido , float velocity)
@@ -176,26 +175,8 @@ public class Trem extends Observable implements Runnable
 		// update position
 		this.position.x = newPosition.x;
 		this.position.y = newPosition.y;
-		
-		
-		
-		//System.out.println(this.countObservers());
-		//notifyObservers();
-		this.myNotifyObserver(); //had to implement my own. No idea on why the other didn't work
-		
 	}
-	
-	public void myReceiveObserver(Object x)
-	{
-		this.observers.add((Observer) x );
-	}
-	public void myNotifyObserver()
-	{
-		for (Observer obs : this.observers)
-		{
-			obs.update(this, null);
-		}
-	}
+
 	@Override
 	public void run() 
 	{

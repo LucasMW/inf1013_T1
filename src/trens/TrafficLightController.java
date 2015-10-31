@@ -12,7 +12,7 @@ import java.util.TimerTask;
 // to do: move system control form TrailsPanel to here
 
 
-public class TrafficLightController extends Observable implements Observer
+public class TrafficLightController extends Observable 
 {
 	boolean greenLightLeft=false;
 	boolean redLightLeft=false;
@@ -43,20 +43,19 @@ public class TrafficLightController extends Observable implements Observer
 		this.setRightLight(true);
 		this.timer = new Timer(); 
 		TimerTask task = new TimerTask()
-		
 		{
-
 			@Override
 			public void run() 
 			{
 				// TODO Auto-generated method stub
+				System.out.println("as");
 				myNotifyObservers();
-				System.out.println("x");
+				
 			}
 			
 		};
 		int fps = 20;
-		this.timer.scheduleAtFixedRate(task, 0, (long) 200);
+		this.timer.scheduleAtFixedRate(task, 0, (long) fps);
 		
 	}
 	static public TrafficLightController getInstance(Point leftPosition, Point rightPosition)
@@ -98,35 +97,6 @@ public class TrafficLightController extends Observable implements Observer
 	{
 		return this.greenLightLeft | this.greenLightRight;
 	}
-	@Override
-	public void update(Observable o, Object arg) 
-	{
-		Trem t = (Trem) o;
-//		if(t.position.x > 146  && t.position.x < 370) //in road
-//		{
-//			if(t.sentido == Way.right)
-//			{
-//				this.setLeftLight(false);
-//			}
-//			else
-//			{
-//				this.setRightLight(false);
-//			}
-//		}
-//		if(this.trainsOnLeft == 0)
-//		{
-//			this.setRightLight(true);
-//		}
-//		if(this.trainsOnRight == 0)
-//		{
-//			this.setLeftLight(true);
-//		}
-		//System.out.printf("left %d, right %d\n",this.trainsOnLeft,this.trainsOnRight);
-		
-		
-	}
-	
-	
 	
 	//sensor section
 	public void trainEnteredThroughRight()
@@ -199,9 +169,8 @@ public class TrafficLightController extends Observable implements Observer
 		System.out.println(velocity);
 		Trem t = new Trem(way,velocity/5);
 		Thread thread = new Thread(t);
-		t.myReceiveObserver(this);
 		this.trains.add(t);
-		t.myReceiveObserver(Trilhos.getInstance().getTrailsPanel());
+		
 		this.trainThread.add(thread);
 		thread.start();
 		if(t.sentido == Way.right)

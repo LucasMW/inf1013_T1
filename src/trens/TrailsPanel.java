@@ -64,7 +64,7 @@ public class TrailsPanel extends JPanel implements Observer
 //			
 //		}
 		this.addMouseListener(new TrailsPanelMouseListener());
-		
+		this.controller.myReceiveObserver(this);
 //		  ActionListener updateGui = new ActionListener() 
 //		  {
 //			 
@@ -145,11 +145,8 @@ public class TrailsPanel extends JPanel implements Observer
 	@Override
 	public void update(Observable o, Object arg) 
 	{
-		
-				
-			this.repaint();
-		
-		
+			System.out.println("ds");
+			this.repaint();	
 	}
 	void turnOnThreads(int time)
 	{
