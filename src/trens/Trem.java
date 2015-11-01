@@ -42,10 +42,10 @@ public class Trem implements Runnable
 		switch(this.sentido)
 		{
 		case right:
-			cor =  Color.red;
+			cor =  Color.black;
 			break;
 		case left:
-			cor = Color.black;
+			cor = Color.red;
 			break;
 		}
 		return cor;
@@ -53,7 +53,7 @@ public class Trem implements Runnable
 	public void UpdatePosition()
 	{
 		Point newPosition = new Point(this.position.x,this.position.y);
-		TrafficLightController ctrl = TrafficLightController.getInstance(null, null);
+		TrafficLightController ctrl = TrafficLightController.getInstance();
 		switch(this.sentido)
 		{
 		case left:

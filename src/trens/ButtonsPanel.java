@@ -29,9 +29,7 @@ public class ButtonsPanel extends JPanel
 				(int) (400));
 		this.setPreferredSize(size);
 		this.setSize(size);
-		
-		
-		this.ctrl = TrafficLightController.getInstance(null, null);
+		this.ctrl = TrafficLightController.getInstance();
 		
 		ActionListener actLisLB = new ActionListener() {
 			@Override

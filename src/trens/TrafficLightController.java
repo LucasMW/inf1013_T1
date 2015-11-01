@@ -33,8 +33,7 @@ public class TrafficLightController extends Observable
 	{
 		this();
 		this.positionLightBoxLeft = leftPosition;
-		this.positionLightBoxRight = rightPosition;
-		
+		this.positionLightBoxRight = rightPosition;	
 	}
 	
 	private TrafficLightController()
@@ -51,7 +50,6 @@ public class TrafficLightController extends Observable
 				myNotifyObservers();
 				
 			}
-			
 		};
 		int fps = 20;
 		this.timer.scheduleAtFixedRate(task, 0, (long) fps);
@@ -59,10 +57,17 @@ public class TrafficLightController extends Observable
 	}
 	static public TrafficLightController getInstance(Point leftPosition, Point rightPosition)
 	{
-		
 		if(instance == null)
 		{
 			instance = new TrafficLightController(leftPosition, rightPosition);
+		}
+		return instance;
+	}
+	static public TrafficLightController getInstance()
+	{
+		if(instance == null)
+		{
+			instance = new TrafficLightController();
 		}
 		return instance;
 	}
