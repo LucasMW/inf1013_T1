@@ -28,7 +28,6 @@ public class TrafficLightController extends Observable
 	
 	private static TrafficLightController instance = null;
 	public List<Trem> trains = new CopyOnWriteArrayList<Trem>(); //thread safe
-	//public List<Thread> trainThread = new LinkedList<Thread>();
 	private List<Observer> observers = new LinkedList<Observer>();
 	private Timer timer;
 	
@@ -196,7 +195,6 @@ public class TrafficLightController extends Observable
 		Thread thread = new Thread(t);
 		this.trains.add(t);
 		
-		//this.trainThread.add(thread);
 		thread.start();
 		
 	}
@@ -213,11 +211,9 @@ public class TrafficLightController extends Observable
 	}
 	public void deleteTrain(Trem t)
 	{
-		System.out.println("deletion called");
 		if(this.trains.remove(t)==true)
 		{
 			t=null; //remove reference
-			System.out.println("deleted");
 		}
 	}
 
