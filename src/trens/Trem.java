@@ -61,8 +61,6 @@ public class Trem implements Runnable
 			{
 				moving = true;
 			}
-			
-			
 			if(this.position.x > 436)
 				newPosition.x -= velocity;
 			else if(this.position.x > 371)
@@ -78,17 +76,13 @@ public class Trem implements Runnable
 				this.moving = false;
 				break;
 				}
-				
-				
 			}
 			else if(this.position.x > 147)
 			{
 				newPosition.x -= velocity;
-				
 			}
 			else if(this.position.x > 66)
 			{
-				 
 				//System.out.println("case left 2");
 				Vector2D vector = new Vector2D(new Point(147,190),new Point(66,169));
 				vector.setModule(this.velocity);
@@ -106,8 +100,6 @@ public class Trem implements Runnable
 				moving = true;
 				//System.out.println("move again");
 			}
-			
-			
 			if(this.position.x > 370 && this.position.x < 439) //segment 
 			{
 				
@@ -115,8 +107,6 @@ public class Trem implements Runnable
 				vector.setModule(this.velocity);
 				newPosition.x += vector.x;
 				newPosition.y += vector.y;
-				
-				
 			}
 			else if(this.position.x > 62 && this.position.x < 146 ) //segment
 			{
@@ -130,9 +120,6 @@ public class Trem implements Runnable
 					this.moving = false;
 					break;
 					}
-					
-
-				
 				newPosition.x += vector.x;
 				newPosition.y += vector.y;
 				
@@ -149,11 +136,11 @@ public class Trem implements Runnable
 			break;
 				
 		}
+		// checking
 		if(this.position.x >510 || this.position.x <-10) //10 units off screen
 		{
 			ctrl.deleteTrain(this);	//removes from list
-			this.destroyed = true; //cancels thread
-			
+			this.destroyed = true; //cancels thread	
 		}
 		if (!moving)
 		{
@@ -186,7 +173,6 @@ public class Trem implements Runnable
 			{
 				ctrl.leftSensorChecked(this);
 			}
-			
 	}
 
 	@Override
