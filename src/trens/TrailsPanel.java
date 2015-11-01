@@ -44,7 +44,7 @@ public class TrailsPanel extends JPanel implements Observer
 		this.setVisible(true);
 		this.setOpaque(true);
 		
-		this.controller = TrafficLightController.getInstance(new Point(109, 146),new Point(397, 241));
+		this.controller = TrafficLightController.getInstance(new Point(109, 241),new Point(397, 146));
 		this.addMouseListener(new TrailsPanelMouseListener());
 		this.controller.myReceiveObserver(this);
 	}
