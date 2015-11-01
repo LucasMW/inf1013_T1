@@ -33,8 +33,7 @@ public class Trem implements Runnable
 				position = new Point(499, 171);
 				break;
 			}
-			this.destroyed=false;
-			
+			this.destroyed=false; //this will be used for thread interruption	
 	}
 	
 	public Color Cor()
@@ -79,19 +78,13 @@ public class Trem implements Runnable
 				this.moving = false;
 				break;
 				}
-				if(newPosition.x < 371)
-				{
-					//ctrl.trainEnteredThroughRight();
-				}
+				
 				
 			}
 			else if(this.position.x > 147)
 			{
 				newPosition.x -= velocity;
-				if(newPosition.x < 147)
-				{
-					//ctrl.trainExitedThroughLeft();
-				}
+				
 			}
 			else if(this.position.x > 66)
 			{
@@ -123,10 +116,7 @@ public class Trem implements Runnable
 				newPosition.x += vector.x;
 				newPosition.y += vector.y;
 				
-				if(newPosition.x > 439)
-				{
-					//ctrl.trainExitedThroughRight();
-				}
+				
 			}
 			else if(this.position.x > 62 && this.position.x < 146 ) //segment
 			{
@@ -145,10 +135,7 @@ public class Trem implements Runnable
 				
 				newPosition.x += vector.x;
 				newPosition.y += vector.y;
-				if(newPosition.x > 146)
-				{
-					//TrafficLightController.getInstance(null, null).trainEnteredThroughLeft();
-				}
+				
 				
 			}
 			else
@@ -207,15 +194,16 @@ public class Trem implements Runnable
 	{
 		while(!destroyed) 
 		{
-		this.UpdatePosition();
-		//System.out.printf("%d,%d\n",position.x, position.y);
-		
-		try {
-		    Thread.sleep(50);                 //1000 milliseconds is one second.
-		} catch(InterruptedException ex) {
-		    //Thread.currentThread().interrupt();
-		}
-		}
+			this.UpdatePosition();
+			try 
+			{
+				Thread.sleep(50);                 //1000 milliseconds is one second.
+			} 
+			catch(InterruptedException ex) 
+			{
+		   
+			}
+	}
 		
 		// TODO Auto-generated method stub
 		
