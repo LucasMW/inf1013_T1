@@ -18,10 +18,12 @@ public class TrafficLightController extends Observable
 	boolean redLightLeft=false;
 	boolean greenLightRight=false;
 	boolean redLightRight=false;
-	private int trainsOnRight=0;
-	private int trainsOnLeft=0;
+	private int rightTrainsCount=0; //trains going right counted by the system
+	private int leftTrainsCount=0; // trains going left counted by the system
 	private Point positionLightBoxLeft;
 	private Point positionLightBoxRight;
+	private Point positionSensorRight;
+	private Point positionSensorLeft;
 	
 	private static TrafficLightController instance = null;
 	public List<Trem> trains = new LinkedList<Trem>();
@@ -53,7 +55,8 @@ public class TrafficLightController extends Observable
 		};
 		int fps = 20;
 		this.timer.scheduleAtFixedRate(task, 0, (long) fps);
-		
+		this.positionSensorLeft = new Point(121,192);
+		this.positionSensorRight = new Point(395,193);
 	}
 	static public TrafficLightController getInstance(Point leftPosition, Point rightPosition)
 	{
@@ -97,61 +100,78 @@ public class TrafficLightController extends Observable
 	{
 		return this.greenLightRight ? Color.green: Color.red;
 	}
+	public Point getRightSensorPosition()
+	{
+		return this.positionSensorRight;
+	}
+	public Point getLeftSensorPosition()
+	{
+		return this.positionSensorLeft;
+	}
 	public boolean SharedTrailOpen()
 	{
 		return this.greenLightLeft | this.greenLightRight;
 	}
 	
 	//sensor section
-	public void trainEnteredThroughRight()
-	{
-		System.out.println("Entered Right");
-		this.decrementTrainsOnRight();
-		this.setLeftLight(false);
-		
-	}
-	public void trainEnteredThroughLeft()
-	{
-		System.out.println("Entered Left");
-		this.decrementTrainsOnLeft();
-		this.setRightLight(false);
-	}
-	public void trainExitedThroughLeft()
-	{
-		System.out.println("Exited Left");
-		this.incrementTrainsOnLeft();
-		if(this.trainsOnRight == 0)
+	public void rightSensorChecked(Trem t) // a train caught on right sensor
+	{	
+		switch (t.sentido)
 		{
-			System.out.println("left set true");
-			this.setLeftLight(true);
+		case left:
+				this.leftTrainCountUp(); //train going left entered
+				break;
+		case right:
+				this.rightTrainCountDown(); //train going right exited
+				break;
 		}
+		this.trafficLightUpdate();
 	}
-	public void trainExitedThroughRight()
+	public void leftSensorChecked(Trem t) // a train caught on left sensor
 	{
-		System.out.println("Exited Right");
-		this.incrementTrainsOnRight();
-		if(this.trainsOnLeft == 0)
+		switch (t.sentido)
 		{
-			System.out.println("right set true");
-			this.setRightLight(true);
+		case left:
+				this.leftTrainCountDown(); //train going left exited
+				break;
+		case right:
+				this.rightTrainCountUp(); //train going right entered
+				break;
 		}
+		this.trafficLightUpdate();
 	}
-	public void incrementTrainsOnRight()
+	public void rightTrainCountUp()
 	{
-		
-		this.trainsOnRight++;
+		this.rightTrainsCount++;
 	}
-	public void incrementTrainsOnLeft()
+	public void leftTrainCountUp()
 	{
-		this.trainsOnLeft++;
+		this.leftTrainsCount++;
 	}
-	public void decrementTrainsOnRight()
+	public void rightTrainCountDown()
 	{
-		this.trainsOnRight--;
+		this.rightTrainsCount--;
 	}
-	public void decrementTrainsOnLeft()
+	public void leftTrainCountDown()
 	{
-		this.trainsOnLeft--;
+		this.leftTrainsCount--;
+	}
+	private void trafficLightUpdate() 
+	{
+		if(this.rightTrainsCount == 0) //no Train going right on sharedTrail
+		{
+			this.setRightLight(true); // trains going right to left may pass
+		}else
+		{
+			this.setRightLight(false); // they would collide
+		}
+		if(this.leftTrainsCount == 0) //no Train going left on sharedTrail
+		{
+			this.setLeftLight(true); // trains going left to right may pass
+		}else
+		{
+			this.setLeftLight(false); // they would collide
+		}
 	}
 	
 	public boolean collisionRiskOnMovement(Point p)
@@ -171,16 +191,13 @@ public class TrafficLightController extends Observable
 	public void informTrain(Way way, float velocity)
 	{
 		System.out.println(velocity);
-		Trem t = new Trem(way,velocity/5);
+		Trem t = new Trem(way,velocity/7);
 		Thread thread = new Thread(t);
 		this.trains.add(t);
 		
 		this.trainThread.add(thread);
 		thread.start();
-		if(t.sentido == Way.right)
-			this.incrementTrainsOnLeft();
-		else
-			this.incrementTrainsOnRight();
+		
 		
 		
 	}

@@ -80,7 +80,7 @@ public class Trem implements Runnable
 				}
 				if(newPosition.x < 371)
 				{
-					ctrl.trainEnteredThroughRight();
+					//ctrl.trainEnteredThroughRight();
 				}
 				
 			}
@@ -89,7 +89,7 @@ public class Trem implements Runnable
 				newPosition.x -= velocity;
 				if(newPosition.x < 147)
 				{
-					ctrl.trainExitedThroughLeft();
+					//ctrl.trainExitedThroughLeft();
 				}
 			}
 			else if(this.position.x > 66)
@@ -124,7 +124,7 @@ public class Trem implements Runnable
 				
 				if(newPosition.x > 439)
 				{
-					ctrl.trainExitedThroughRight();
+					//ctrl.trainExitedThroughRight();
 				}
 			}
 			else if(this.position.x > 62 && this.position.x < 146 ) //segment
@@ -146,7 +146,7 @@ public class Trem implements Runnable
 				newPosition.y += vector.y;
 				if(newPosition.x > 146)
 				{
-					TrafficLightController.getInstance(null, null).trainEnteredThroughLeft();
+					//TrafficLightController.getInstance(null, null).trainEnteredThroughLeft();
 				}
 				
 			}
@@ -173,8 +173,28 @@ public class Trem implements Runnable
 			return;
 		}
 		// update position
+		this.hasPassedSensor(this.position, newPosition); //verifies sensors
+		
 		this.position.x = newPosition.x;
 		this.position.y = newPosition.y;
+	}
+	private void hasPassedSensor(Point op, Point np)
+	{
+		TrafficLightController ctrl = TrafficLightController.getInstance();
+			if(op.x <= ctrl.getRightSensorPosition().x && np.x > ctrl.getRightSensorPosition().x )
+			{
+				ctrl.rightSensorChecked(this);
+			} else if(op.x >= ctrl.getRightSensorPosition().x && np.x < ctrl.getRightSensorPosition().x)
+			{
+				ctrl.rightSensorChecked(this);
+			} else if(op.x <= ctrl.getLeftSensorPosition().x && np.x > ctrl.getLeftSensorPosition().x )
+			{
+				ctrl.leftSensorChecked(this);
+			} else if(op.x >= ctrl.getLeftSensorPosition().x && np.x < ctrl.getLeftSensorPosition().x)
+			{
+				ctrl.leftSensorChecked(this);
+			}
+			
 	}
 
 	@Override
