@@ -59,8 +59,8 @@ public class ButtonsPanel extends JPanel
 		this.launchRightTrain.addActionListener(actLisRB);
 		this.add(launchRightTrain);
 		this.velocityComboBox = new JComboBox<Float>();
-		this.velocityComboBox.addItem(new Float(30));
 		this.velocityComboBox.addItem(new Float(40));
+		this.velocityComboBox.addItem(new Float(50));
 		this.velocityComboBox.addItem(new Float(60));
 		this.velocityComboBox.setSelectedIndex(0);
 		this.velocityComboBox.setBounds(200, 0, 100, 50);

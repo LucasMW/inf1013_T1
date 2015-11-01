@@ -191,7 +191,7 @@ public class TrafficLightController extends Observable
 	public void informTrain(Way way, float velocity)
 	{
 		System.out.println(velocity);
-		Trem t = new Trem(way,velocity/7);
+		Trem t = new Trem(way,velocity/5);
 		Thread thread = new Thread(t);
 		this.trains.add(t);
 		
