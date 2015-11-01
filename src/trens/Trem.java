@@ -152,7 +152,6 @@ public class Trem implements Runnable
 			}
 			else
 			{
-				
 				newPosition.x += velocity;
 			}
 			break;
@@ -162,7 +161,12 @@ public class Trem implements Runnable
 			break;
 				
 		}
-		
+		if(this.position.x >1000 || this.position.x <-500)
+		{
+			//Thread.currentThread().interrupt();
+			ctrl.deleteTrain(this);
+			
+		}
 		if (!moving)
 		{
 			return;
@@ -172,13 +176,13 @@ public class Trem implements Runnable
 			System.out.println("stop");
 			return;
 		}
-		// update position
-		this.hasPassedSensor(this.position, newPosition); //verifies sensors
+		this.checkPassedSensor(this.position, newPosition); //verifies sensors
 		
+		// update position
 		this.position.x = newPosition.x;
 		this.position.y = newPosition.y;
 	}
-	private void hasPassedSensor(Point op, Point np)
+	private void checkPassedSensor(Point op, Point np)
 	{
 		TrafficLightController ctrl = TrafficLightController.getInstance();
 			if(op.x <= ctrl.getRightSensorPosition().x && np.x > ctrl.getRightSensorPosition().x )

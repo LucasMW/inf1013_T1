@@ -8,6 +8,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 // to do: move system control form TrailsPanel to here
 
@@ -26,7 +27,7 @@ public class TrafficLightController extends Observable
 	private Point positionSensorLeft;
 	
 	private static TrafficLightController instance = null;
-	public List<Trem> trains = new LinkedList<Trem>();
+	public List<Trem> trains = new CopyOnWriteArrayList<Trem>(); //thread safe
 	public List<Thread> trainThread = new LinkedList<Thread>();
 	private List<Observer> observers = new LinkedList<Observer>();
 	private Timer timer;
@@ -198,8 +199,6 @@ public class TrafficLightController extends Observable
 		this.trainThread.add(thread);
 		thread.start();
 		
-		
-		
 	}
 	public void myReceiveObserver(Object x)
 	{
@@ -211,6 +210,10 @@ public class TrafficLightController extends Observable
 		{
 			obs.update(this, null);
 		}
+	}
+	public void deleteTrain(Trem t)
+	{
+		this.trains.remove(t);		
 	}
 
 }
