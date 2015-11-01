@@ -18,7 +18,7 @@ public class Trem implements Runnable
 	float velocity;
 	Point position;
 	boolean moving;
-	
+	boolean destroyed;
 	public Trem(Way sentido , float velocity)
 	{
 			this.sentido = sentido;
@@ -33,6 +33,7 @@ public class Trem implements Runnable
 				position = new Point(499, 171);
 				break;
 			}
+			this.destroyed=false;
 			
 	}
 	
@@ -161,10 +162,10 @@ public class Trem implements Runnable
 			break;
 				
 		}
-		if(this.position.x >1000 || this.position.x <-500)
+		if(this.position.x >510 || this.position.x <-10) //10 units off screen
 		{
-			//Thread.currentThread().interrupt();
-			ctrl.deleteTrain(this);
+			ctrl.deleteTrain(this);	//removes from list
+			this.destroyed = true; //cancels thread
 			
 		}
 		if (!moving)
@@ -204,7 +205,7 @@ public class Trem implements Runnable
 	@Override
 	public void run() 
 	{
-		while(true)
+		while(!destroyed) 
 		{
 		this.UpdatePosition();
 		//System.out.printf("%d,%d\n",position.x, position.y);
