@@ -12,19 +12,19 @@ enum Way
 	right,
 	left
 };
-public class Trem implements Runnable
+public class Train implements Runnable
 {
-	Way sentido;
+	Way way;
 	float velocity;
 	Point position;
 	boolean moving;
 	boolean destroyed;
-	public Trem(Way sentido , float velocity)
+	public Train(Way way , float velocity)
 	{
-			this.sentido = sentido;
+			this.way = way;
 			this.velocity = velocity;
 			this.moving = true;
-			switch(this.sentido)
+			switch(this.way)
 			{
 			case right:
 				position = new Point(0,230);
@@ -39,7 +39,7 @@ public class Trem implements Runnable
 	public Color Cor()
 	{
 		Color cor = null;
-		switch(this.sentido)
+		switch(this.way)
 		{
 		case right:
 			cor =  Color.black;
@@ -54,7 +54,7 @@ public class Trem implements Runnable
 	{
 		Point newPosition = new Point(this.position.x,this.position.y);
 		TrafficLightController ctrl = TrafficLightController.getInstance();
-		switch(this.sentido)
+		switch(this.way)
 		{
 		case left:
 			if(ctrl.greenLightRight == true)
@@ -131,7 +131,7 @@ public class Trem implements Runnable
 			}
 			break;
 		default:
-			this.position.x += velocity * ((sentido == Way.right)? 1 : -1);
+			this.position.x += velocity * ((way == Way.right)? 1 : -1);
 			this.position.y += velocity;
 			break;
 				

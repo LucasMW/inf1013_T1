@@ -72,7 +72,7 @@ public class TrailsPanel extends JPanel implements Observer
 		
 		super.paintComponent(g);
 		g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-		for (Trem train : this.controller.trains)
+		for (Train train : this.controller.trains)
 		{
 			
 			drawTrain(g,train);
@@ -80,7 +80,7 @@ public class TrailsPanel extends JPanel implements Observer
 		drawTrafficLights(g, this.controller);
 		
 	}
-	void drawTrain(Graphics g, Trem t)
+	void drawTrain(Graphics g, Train t)
 	{
 		int radius = 10;
 		g.setColor(t.Cor());

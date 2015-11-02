@@ -27,7 +27,7 @@ public class TrafficLightController extends Observable
 	private Point positionSensorLeft;
 	
 	private static TrafficLightController instance = null;
-	public List<Trem> trains = new CopyOnWriteArrayList<Trem>(); //thread safe
+	public List<Train> trains = new CopyOnWriteArrayList<Train>(); //thread safe
 	private List<Observer> observers = new LinkedList<Observer>();
 	private Timer timer;
 	
@@ -114,9 +114,9 @@ public class TrafficLightController extends Observable
 	}
 	
 	//sensor section
-	public void rightSensorChecked(Trem t) // a train caught on right sensor
+	public void rightSensorChecked(Train t) // a train caught on right sensor
 	{	
-		switch (t.sentido)
+		switch (t.way)
 		{
 		case left:
 				this.leftTrainCountUp(); //train going left entered
@@ -127,9 +127,9 @@ public class TrafficLightController extends Observable
 		}
 		this.trafficLightUpdate();
 	}
-	public void leftSensorChecked(Trem t) // a train caught on left sensor
+	public void leftSensorChecked(Train t) // a train caught on left sensor
 	{
-		switch (t.sentido)
+		switch (t.way)
 		{
 		case left:
 				this.leftTrainCountDown(); //train going left exited
@@ -176,7 +176,7 @@ public class TrafficLightController extends Observable
 	
 	public boolean collisionRiskOnMovement(Point p)
 	{
-		for (Trem train: this.trains)
+		for (Train train: this.trains)
 		{
 			float hor = train.position.x - p.x; 
 			float ver = train.position.y - p.y;
@@ -191,7 +191,7 @@ public class TrafficLightController extends Observable
 	public void informTrain(Way way, float velocity)
 	{
 		System.out.println(velocity);
-		Trem t = new Trem(way,velocity/5);
+		Train t = new Train(way,velocity/5);
 		Thread thread = new Thread(t);
 		this.trains.add(t);
 		
@@ -209,7 +209,7 @@ public class TrafficLightController extends Observable
 			obs.update(this, null);
 		}
 	}
-	public void deleteTrain(Trem t)
+	public void deleteTrain(Train t)
 	{
 		if(this.trains.remove(t)==true)
 		{
